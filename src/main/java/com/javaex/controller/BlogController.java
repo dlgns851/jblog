@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.UserService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -38,9 +40,12 @@ public class BlogController {
 		System.out.println(userNo+"userno임 ");
 		BlogVo blogVo = blogService.getBlogTitlelogo(userNo);
 		List<CategoryVo> categoryList = blogService.getCategoryList(userNo);
+		List<PostVo> postList = blogService.getPostList(userNo);
 		model.addAttribute("blogVo", blogVo);
 		model.addAttribute("categoryList", categoryList);
-	
+		
+		System.out.println(postList.toString());
+		model.addAttribute("postList", postList);
 		
 		
 		return "blog/blog-main";
@@ -77,12 +82,12 @@ public class BlogController {
 	
 	@ResponseBody
 	@RequestMapping("category/add")
-	public String categoryForm(@ModelAttribute CategoryVo categoryVo,HttpSession session) {
+	public CategoryVo categoryForm(@ModelAttribute CategoryVo categoryVo,HttpSession session) {
 		UserVo userVo = (UserVo)session.getAttribute("authUser");
 		
-		blogService.addNewCategory(categoryVo,userVo.getUserNo());
-		System.out.println(categoryVo.toString());
-		return "";
+		CategoryVo categoryVo1= blogService.addNewCategory(categoryVo,userVo.getUserNo());    //모델어트리뷰트와 categoryvo가 중복되는이름이라 1 추가  
+		
+		return categoryVo1;
 	}
 	
 	@RequestMapping("{userid}/admin/write")
@@ -103,7 +108,56 @@ public class BlogController {
 		}
 	}
 	
+	@RequestMapping("/post/write")
+	public String postWrite(HttpSession session,Model model,@ModelAttribute PostVo postVo,@RequestParam("category") String cateTitle) {
+		UserVo authUser= (UserVo)session.getAttribute("authUser");
+		
+		
+		//postvo에넣을 카테고리 넘버값을 catetitle을 이용하여 넣기 
+		
+		//1.카테고리 넘버값 구하는 거 구현 
+		//2.넘버값을 postVo에 넣는거
+		//3postvo를 인설트 
+		
+		
+		postVo.setCateNo(blogService.getCategoryNo(cateTitle,authUser.getUserNo() ));  //1,2
+		
+		System.out.println(postVo.getCateNo());
+		blogService.addNewPost(postVo);
+
+		return "redirect:/"+authUser.getId();
+		}
 	
+	@ResponseBody
+	@RequestMapping("category/list")
+	public List<CategoryVo> categoryList(HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute("authUser");
+		int userNo =userService.getUserNo(userVo.getId());
+		List<CategoryVo> categoryList = userService.getCategoryListAll(userNo);
+		
 	
-	
+		
+		
+		return categoryList;
+	}
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+

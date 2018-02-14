@@ -35,6 +35,53 @@ where id = #{id} and password = #{password}
  where us.user_no=bl.user_no and bl.user_no = #{value}
 
 ]]>
+</select>
+
+
+<select id="selectPostListByUserId" parameterType="int"  resultType="com.javaex.vo.PostVo">
+<![CDATA[
+
+select po.post_no postNo, po.cate_no cateNo, po.post_title postTitle, po.post_content postContent, po.reg_date regDate
+ from post po,category ca
+ where po.cate_no=ca.cate_no and ca.user_no=#{userNo}
+
+]]>
+</select>
+
+
+<select id="selectCategoryListAll" parameterType="int"  resultType="com.javaex.vo.CategoryVo">
+<![CDATA[
+
+ select cate_no cateNo,user_no userNo,cate_name cateName,description,reg_date regDate
+ from category
+ where user_no=#{userNo}
+
+]]>
+</select>
+
+<select id="selectCategorybyUserId" parameterType="com.javaex.vo.CategoryVo"  resultType="com.javaex.vo.CategoryVo">
+<![CDATA[
+
+ select cate_no cateNo,user_no userNo,cate_name cateName,description,reg_date regDate
+ from category
+ where user_no=#{userNo} and cate_name=#{cateName}
+
+]]>
+
+
+</select>
+
+
+
+<select id="selectCategoryNo" parameterType="map"  resultType="int">
+<![CDATA[
+
+select cate_no cateNo
+from category
+where cate_name=#{cateTitle} and user_no=#{userNo}  
+
+]]>
+
 
 </select>
 
@@ -42,6 +89,16 @@ where id = #{id} and password = #{password}
 <![CDATA[
  
  insert into Category values (seq_category_no.nextval, #{userNo},#{cateName} ,#{description},sysdate)
+	
+
+		
+]]>
+</insert>
+
+<insert id="insertNewPost" parameterType="com.javaex.vo.PostVo" >
+<![CDATA[
+ 
+ insert into post values (seq_post_no.nextval, #{cateNo},#{postTitle} ,#{postContent},sysdate)
 	
 
 		

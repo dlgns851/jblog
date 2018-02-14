@@ -1,10 +1,13 @@
 package com.javaex.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.UserDao;
+import com.javaex.vo.CategoryVo;
 import com.javaex.vo.UserVo;
 
 @Service
@@ -31,5 +34,12 @@ public class UserService {
 	public int getUserNo(String userId) {
 
 		return userDao.getUserNo(userId);
+	}
+
+	public List<CategoryVo> getCategoryListAll(int userNo) {
+		// TODO Auto-generated method stub
+		
+		
+		return blogDao.getCategoryListAll(userNo);
 	}
 }

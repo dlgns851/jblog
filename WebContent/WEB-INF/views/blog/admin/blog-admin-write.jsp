@@ -27,12 +27,12 @@
 				</ul>
 				
 				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath}/post/write" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
-			      				<input type="text" size="60" name="title">
+			      				<input type="text" size="60" name="postTitle">
 				      			<select name="category">
 				      			<c:forEach items="${categoryList}" var="vo">
 				      			<option>${ vo.cateName}</option>
@@ -45,7 +45,7 @@
 			      		</tr>
 			      		<tr>
 			      			<td class="t">내용</td>
-			      			<td><textarea name="content"></textarea></td>
+			      			<td><textarea name="postContent"></textarea></td>
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>

@@ -7,6 +7,7 @@ public class CategoryVo {
 	String cateName;
 	String description;
 	String regDate;
+	int postCount;
 	public CategoryVo() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -18,6 +19,13 @@ public class CategoryVo {
 		this.cateName = cateName;
 		this.description = description;
 		this.regDate = regDate;
+	}
+	
+	public int getPostCount() {
+		return postCount;
+	}
+	public void setPostCount(int postCount) {
+		this.postCount = postCount;
 	}
 	public int getCateNo() {
 		return cateNo;
@@ -52,8 +60,11 @@ public class CategoryVo {
 	@Override
 	public String toString() {
 		return "CategoryVo [cateNo=" + cateNo + ", userNo=" + userNo + ", cateName=" + cateName + ", description="
-				+ description + ", regDate=" + regDate + "]";
+				+ description + ", regDate=" + regDate + ", postCount=" + postCount + "]";
 	}
+	
+	
+	
 	
 	
 }

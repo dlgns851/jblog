@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog3332323</title>
 <link rel="stylesheet" href="/jblog/assets/css/jblog.css">
-<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js?a=3"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
 
 </head>
 <body>
@@ -34,7 +34,7 @@
 					<li><a href="${pageContext.request.contextPath}/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
 
-				<table class="admin-cat">
+			<%-- 	<table class="admin-cat">
 					<tr>
 						<th>번호</th>
 						<th>카테고리명</th>
@@ -64,9 +64,12 @@
 						<td>15</td>
 						<td>어쩌구 저쩌구</td>
 						<td><img
-							src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
+							src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>							
 					</tr>
-				</table>
+					
+				</table> --%>
+				<ul id="listArea">
+					</ul>
 
 				<h4 class="n-c">새로운 카테고리 추가</h4>
 				<table id="admin-cat-add">
@@ -98,67 +101,109 @@
 </body>
 
 <script type="text/javascript">
+$(document)
+.ready(
+		function() {
 
+			var page = 1;
+
+			$.ajax({
+						//줄때
+						url : "${pageContext.request.contextPath }/category/list",
+						type : "post",
+						//data : 
+						//contentType : "application/json",  
+						//contentType : "text",
+						//data : JSON.stringify(userVo),     //이렇게 보낼경우 리퀘스트? 리스폰스? 헤더영역에 들어감 
+
+						//받을때 데이터타입 
+						dataType : "json",
+						success : function(categoryList) {
+
+							console.log(categoryList);
+							for (var i = 0; i < categoryList.length; i++) {
+								render(categoryList[i], "down");
+							}
+							/* for (var i = 0; i < guestList.length; i++) {
+								render(guestList[i], "down");
+							} */
+
+							/*성공시 처리해야될 코드 작성*/
+						},
+						/*연결실패시 */
+						error : function(XHR, status, error) {
+							console.error(status + " : " + error);
+						}
+					});
+			
+			
+			
+			
+			$("#btn_addCategory").on("click",function() {
+				var name =$("#name").val();
+				console.log(name);
+				
+				
+				console.log("asdfasdfasd");
+								var newWriting = {
+									cateName : $("#name").val(),
+									description : $("#desc").val()
+									}
+								
+						
+						
+						
+					 $.ajax({
+											//줄때
+											url : "${pageContext.request.contextPath }/category/add",
+											type : "post",
+											data : newWriting,
+											//contentType : "application/json",  
+											//contentType : "text",
+											//data : JSON.stringify(userVo),     //이렇게 보낼경우 리퀘스트? 리스폰스? 헤더영역에 들어감 
+
+											//받을때 데이터타입 
+											dataType : "json",
+											success : function(categoryVo1){
+													
+												
+												render(categoryVo1, "down");
+
+												
+											},
+											
+											error : function(XHR,
+													status, error) {
+												console	.error(status+ " : "
+																+ error);
+											}
+										}); 
+
+							});
+			
+			
+			
+		});
 
 						
 
-						$("#btn_addCategory").on("click",function() {
-							var name =$("#name").val();
-							console.log(name);
-							
-							
-							console.log("asdfasdfasd");
-											var newWriting = {
-												cateName : $("#name").val(),
-												description : $("#desc").val()
-												}
-											
-									
-									
-									
-								 $.ajax({
-														//줄때
-														url : "${pageContext.request.contextPath }/category/add",
-														type : "post",
-														data : newWriting,
-														//contentType : "application/json",  
-														//contentType : "text",
-														//data : JSON.stringify(userVo),     //이렇게 보낼경우 리퀘스트? 리스폰스? 헤더영역에 들어감 
-
-														//받을때 데이터타입 
-														dataType : "json",
-														success : function(){
-																
-															console.alert("새카테고리생성성공");
-														
-
-															
-														},
-														
-														error : function(XHR,
-																status, error) {
-															console	.error(status+ " : "
-																			+ error);
-														}
-													}); 
-
-										});
+						
 
 				
 
-	function render(guestVo, updown) { //글이 위에서 붙을 수 있게 flag 로 updown 넣어놈 
+	function render(CategoryVo, updown) { //글이 위에서 붙을 수 있게 flag 로 updown 넣어놈 
 
 		var str = "";
-		str += "<li id='"+guestVo.no+"'>";
+		str += "<li id='"+CategoryVo.cateNo+"'>";
 		str += "	<table>";
 		str += "     <tr>";
-		str += "		<td>[" + guestVo.no + "]</td>";
-		str += "		<td>" + guestVo.name + "</td>";
-		str += "		<td>" + guestVo.regDate + "</td>";
-		str += " 		<td><input type='button' class='btnDel' value='삭제' data-no='"+ guestVo.no+"'>"; //원래의 "" 는 '' 로 바꿔준다
+		str += "		<td>[" + CategoryVo.cateNo + "]</td>";
+		str += "		<td>" + CategoryVo.cateName + "</td>";
+		str += "		<td>" + CategoryVo.regDate + "</td>";
+		str += " 		<td><input type='button' class='btnDel' value='삭제' data-no='"+ CategoryVo.cateNo+"'>"; //원래의 "" 는 '' 로 바꿔준다
 		str += "     </tr>";
 		str += "     <tr>";
-		str += "     <td colspan=4>" + guestVo.content + "</td>";
+		str += "     <td colspan=4>" + CategoryVo.description + "</td>";
 		str += "     </tr>";
 		str += "	</table>";
 		str += "	<br>";

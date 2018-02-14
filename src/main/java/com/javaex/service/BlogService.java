@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
 
 @Service
@@ -37,11 +38,29 @@ public class BlogService {
 		blogDao.updateBlogTitle(blogVo);
 	}
 
-	public void addNewCategory(CategoryVo categoryVo, int userNo) {
+	public CategoryVo addNewCategory(CategoryVo categoryVo, int userNo) {
 		// TODO Auto-generated method stub
 		categoryVo.setUserNo(userNo);
-		blogDao.addNewCategory(categoryVo);
+		return blogDao.addNewCategory(categoryVo);   //하나 추가하고 추가한녀석 반환 
 		
+	}
+
+	public int getCategoryNo(String cateTitle,int userNo) {
+		// TODO Auto-generated method stub
+		
+		return blogDao.getCategoryNo(cateTitle,userNo);
+		 
+	}
+
+	public void addNewPost(PostVo postVo) {
+		// TODO Auto-generated method stub
+		blogDao.addNewPost(postVo);
+		
+	}
+
+	public List<PostVo> getPostList(int userNo) {
+		// TODO Auto-generated method stub
+		return blogDao.getPostList(userNo);
 	}
 	
 }
