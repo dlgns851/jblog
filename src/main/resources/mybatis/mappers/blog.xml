@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blog">
+
+
+
+<select id="selectUserByEmailPw" parameterType="map" resultType="com.javaex.vo.UserVo">
+<![CDATA[
+
+select no, name 
+from users 
+where email = #{email} and password = #{password}
+
+]]>
+
+</select>
+
+<!-- <select id="selectUserNoByIdPass" parameterType="com.javaex.vo.UserVo" resultType="int">
+<![CDATA[
+
+select no 
+from users 
+where id = #{id} and password = #{password}
+
+]]>
+
+</select> -->
+
+<select id="selectBlogTitleByUserId" parameterType="int"  resultType="com.javaex.vo.BlogVo">
+<![CDATA[
+
+ select bl.user_no userNo, bl.blog_title blogTitle, bl.logo_file logoFile
+ from users us , blog bl
+ where us.user_no=bl.user_no and bl.user_no = #{value}
+
+]]>
+
+</select>
+
+<insert id="insertNewCategory" parameterType="com.javaex.vo.CategoryVo" >
+<![CDATA[
+ 
+ insert into Category values (seq_category_no.nextval, #{userNo},#{cateName} ,#{description},sysdate)
+	
+
+		
+]]>
+</insert>
+
+<select id="selectCategoryByUserId" parameterType="int"  resultType="com.javaex.vo.CategoryVo">
+<![CDATA[
+
+ select ca.cate_no cateNo,ca.user_no UserNo,ca.cate_name cateName,ca.description,ca.reg_date regDate
+ from users us , category ca
+ where us.user_no=ca.user_no and ca.user_no = #{userNo}
+
+]]>
+
+</select>
+
+<select id="selectUserByIdAndPass" parameterType="com.javaex.vo.UserVo" resultType="com.javaex.vo.UserVo">
+<![CDATA[
+
+select user_no userNo, id, user_name userName, password, join_date joinDate
+from users 
+where id = #{id} and password = #{password}
+
+]]>
+
+</select>
+
+
+
+<insert id="insertBlog" parameterType="int" >
+<![CDATA[
+ 
+ insert into blog values (#{userNo},'title','path')
+	
+
+		
+]]>
+</insert>
+
+<insert id="insertCategory" parameterType="int" >
+<![CDATA[
+ 
+ insert into Category values (seq_category_no.nextval, #{userNo},'categorytitle' ,'description',sysdate)
+	
+
+		
+]]>
+</insert>
+
+<delete id="delete" parameterType="map" >
+<![CDATA[
+delete from guestbook where no=#{no} and password=#{password}
+]]>
+</delete>
+
+<update id="updateBlogTitle" parameterType="com.javaex.vo.BlogVo" > 
+
+<![CDATA[
+update blog 		set blog_title=#{blogTitle},logo_file=#{logoFile}
+					where user_NO=#{userNo}
+		
+]]>
+</update>
+
+</mapper>
+
+
+
+
+
+	
