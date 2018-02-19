@@ -203,7 +203,7 @@ $(document)
 		str += " 		<td><input type='button' class='btnDel' value='삭제' data-no='"+ CategoryVo.cateNo+"'>"; //원래의 "" 는 '' 로 바꿔준다
 		str += "     </tr>";
 		str += "     <tr>";
-		str += "     <td colspan=4>" + CategoryVo.description + "</td>";
+		str += "     <td colspan=4>" + CategoryVo.description +CategoryVo.postCount+ "</td>";
 		str += "     </tr>";
 		str += "	</table>";
 		str += "	<br>";

@@ -5,8 +5,9 @@
 
 
 <!-- 메인해더 -->
-		<a href="">
+		<a href="${pageContext.request.contextPath }">
 			<img class="logo" src="/jblog/assets/images/logo.jpg">
+
 		</a>
 		<ul class="menu">
 			

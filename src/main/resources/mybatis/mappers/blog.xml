@@ -44,17 +44,73 @@ where id = #{id} and password = #{password}
 select po.post_no postNo, po.cate_no cateNo, po.post_title postTitle, po.post_content postContent, po.reg_date regDate
  from post po,category ca
  where po.cate_no=ca.cate_no and ca.user_no=#{userNo}
+ order by po.reg_date desc
 
 ]]>
 </select>
 
+<select id="selectPost" parameterType="int"  resultType="com.javaex.vo.PostVo">
+<![CDATA[
+
+ select post_title postTitle, post_content postContent
+ from (select rownum rown, post_title,post_content
+ from (
+ select post_title,post_content
+ from post po, category ca
+ where po.cate_no=ca.cate_no and ca.user_no=#{userNo}
+ order by po.reg_date desc))
+ where rown=1
+
+]]>
+</select>
+
+<select id="selectPostByPostNo" parameterType="String"  resultType="com.javaex.vo.PostVo">
+<![CDATA[
+
+ select post_title postTitle, post_content postContent
+ from post
+ where post_no=#{value}
+
+]]>
+</select>
+<select id="selectPostByCategoryNo" parameterType="map"  resultType="com.javaex.vo.PostVo">
+<![CDATA[
+
+ select post_title postTitle, post_content postContent
+ from (select rownum rown, post_title,post_content
+ from (
+ select post_title,post_content
+ from post po, category ca
+ where po.cate_no=ca.cate_no and ca.user_no=#{userNo} and po.cate_no=#{selectedCategoryNo}
+ order by po.reg_date desc))
+ where rown=1
+
+]]>
+</select>
+<select id="selectPostListByCategoryNo" parameterType="map"  resultType="com.javaex.vo.PostVo">
+<![CDATA[
+
+select po.post_no postNo, po.cate_no cateNo, po.post_title postTitle, po.post_content postContent, po.reg_date regDate
+ from post po,category ca
+ where po.cate_no=ca.cate_no and ca.user_no=#{userNo} and po.cate_no=#{selectedCategoryNo}
+ order by po.reg_date desc
+
+]]>
+</select>
 
 <select id="selectCategoryListAll" parameterType="int"  resultType="com.javaex.vo.CategoryVo">
 <![CDATA[
 
- select cate_no cateNo,user_no userNo,cate_name cateName,description,reg_date regDate
- from category
- where user_no=#{userNo}
+
+ 
+ select ca.cate_no cateNo,user_no userNo,cate_name cateName,description,reg_date regDate,post_count postCount
+from category ca, (select ca.cate_no, count(post_no) post_count
+                    from category ca, post po
+                    where ca.cate_no=po.cate_no(+)
+                    group by ca.cate_no) po
+where ca.cate_no = po.cate_no and user_no=#{userNo}
+
+
 
 ]]>
 </select>
@@ -129,10 +185,10 @@ where id = #{id} and password = #{password}
 
 
 
-<insert id="insertBlog" parameterType="int" >
+<insert id="insertBlog" parameterType="map" >
 <![CDATA[
  
- insert into blog values (#{userNo},'title','path')
+ insert into blog values (#{userNo},#{userId}||'의 블로그입니다','spring-logo.jpg')
 	
 
 		
@@ -142,7 +198,7 @@ where id = #{id} and password = #{password}
 <insert id="insertCategory" parameterType="int" >
 <![CDATA[
  
- insert into Category values (seq_category_no.nextval, #{userNo},'categorytitle' ,'description',sysdate)
+ insert into Category values (seq_category_no.nextval, #{userNo},'미분류' ,'description',sysdate)
 	
 
 		
@@ -159,6 +215,15 @@ delete from guestbook where no=#{no} and password=#{password}
 
 <![CDATA[
 update blog 		set blog_title=#{blogTitle},logo_file=#{logoFile}
+					where user_NO=#{userNo}
+		
+]]>
+</update>
+
+<update id="updateBlogTitle2" parameterType="com.javaex.vo.BlogVo" > 
+
+<![CDATA[
+update blog 		set blog_title=#{blogTitle}
 					where user_NO=#{userNo}
 		
 ]]>

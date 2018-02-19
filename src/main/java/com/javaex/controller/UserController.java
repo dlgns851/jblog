@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.UserService;
@@ -48,12 +52,14 @@ public class UserController {
 	@RequestMapping(value="login")
 	public String login(@ModelAttribute UserVo userVo,HttpSession session) {
 		
+		System.out.println(userVo.toString());
 		//로그인 구현 
 		UserVo authUser = userService.login(userVo);
 		
 		if(authUser != null) { //로그인성공
+			
 			session.setAttribute("authUser", authUser);
-			return "redirect:/main";
+			return "redirect:/";
 		}
 		else {
 			
@@ -69,6 +75,16 @@ public class UserController {
 		session.invalidate();
 		
 		return "redirect:/main";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="idcheck")
+	public boolean idCheck(@RequestParam("userId") String userId) {//리퀘스트바디로 객체 받아오기
+		/*@RequestParam("userId") String userId*/
+	boolean flag = userService.idCheck(userId);
+		
+		
+		return flag;   
 	}
 	
 	

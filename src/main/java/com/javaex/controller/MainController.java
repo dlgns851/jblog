@@ -7,8 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
 	
-	@RequestMapping("main")
+	@RequestMapping("")
 	public String main(){
+		
+		return "main/index";
+		
+	}
+	@RequestMapping("main")
+	public String main2(){
 		
 		return "main/index";
 		

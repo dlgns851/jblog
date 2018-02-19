@@ -38,6 +38,17 @@ where id = #{id} and password = #{password}
 
 </select>
 
+<select id="selectForIdCheck" parameterType="String" resultType="com.javaex.vo.UserVo">
+<![CDATA[
+
+select user_no userNo, id, user_name userName, password, join_date joinDate
+from users 
+where id = #{userId}
+
+]]>
+
+</select>
+
 
 
 <insert id="insertUser" parameterType="com.javaex.vo.UserVo" >

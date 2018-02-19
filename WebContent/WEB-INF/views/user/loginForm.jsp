@@ -22,10 +22,15 @@
       		
       		<label>패스워드</label> 
       		<input type="text" name="password">
-      		
+      		<c:if test="${param.flag==1 }">
+				
+				
       		<p class="form-error">
-				에러메세지
+				로그인 실패<br>
+				아이디/패스워드를 확인해주세요
+				
 			</p>
+			</c:if>
       		<input type="submit" value="로그인">
 		</form>
 		

@@ -20,8 +20,11 @@ public class BlogDao {
 	
 	
 	
-	public void createBlog(int userNo) {
-		sqlSession.insert("blog.insertBlog", userNo);
+	public void createBlog(int userNo,String userId) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("userId", userId);
+		sqlSession.insert("blog.insertBlog", map);
 	}
 	public void createCategory(int userNo) {
 		 sqlSession.insert("blog.insertCategory", userNo);
@@ -39,6 +42,9 @@ public class BlogDao {
 	
 	public void updateBlogTitle(BlogVo blogVo) {
 		 sqlSession.update("blog.updateBlogTitle", blogVo);
+	}
+	public void updateBlogTitle2(BlogVo blogVo) { //제목만 바꾸는거
+		 sqlSession.update("blog.updateBlogTitle2", blogVo);  
 	}
 	public CategoryVo  addNewCategory(CategoryVo categoryVo) {
 		// TODO Auto-generated method stub
@@ -68,6 +74,29 @@ public class BlogDao {
 	public List<PostVo> getPostList(int userNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("blog.selectPostListByUserId", userNo);
+	}
+	public List<PostVo> getPostList(int userNo, String selectedCategoryNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("selectedCategoryNo",selectedCategoryNo);
+		
+		return sqlSession.selectList("blog.selectPostListByCategoryNo", map);
+	}
+	public PostVo getPostTitleContent(int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("blog.selectPost", userNo);
+	}
+	public PostVo getPostTitleContentByCategoryNo(int userNo, String selectedCategoryNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("selectedCategoryNo",selectedCategoryNo);
+		return sqlSession.selectOne("blog.selectPostByCategoryNo", map);
+	}
+	public PostVo getPostTitleContentByPostNo(String selectedPostNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("blog.selectPostByPostNo", selectedPostNo);
 	}
 	
 }

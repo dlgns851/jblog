@@ -32,18 +32,24 @@ public class BlogController {
 	
 	
 	@RequestMapping(value="/{userid}")
-	public String login(@ModelAttribute UserVo userVo,@PathVariable(value="userid") String userId,Model model) {
+	public String login(@ModelAttribute UserVo userVo,@PathVariable(value="userid") String userId,Model model,@RequestParam(value="selectedPostNo", required=false) String selectedPostNo,
+			@RequestParam(value="selectedCategoryNo", required=false) String selectedCategoryNo) {
 		
-		System.out.println(userId);
+		System.out.println("선택된 카테고리"+selectedCategoryNo);
 		
 		int userNo =userService.getUserNo(userId);
 		System.out.println(userNo+"userno임 ");
+		PostVo postVo = blogService.getPostTitleContent(userNo,selectedCategoryNo,selectedPostNo); 
 		BlogVo blogVo = blogService.getBlogTitlelogo(userNo);
+		
 		List<CategoryVo> categoryList = blogService.getCategoryList(userNo);
-		List<PostVo> postList = blogService.getPostList(userNo);
+		List<PostVo> postList = blogService.getPostList(userNo,selectedCategoryNo);
+		System.out.println(userId+"aaaaaaaaaaaa");
+		model.addAttribute("userId",userId);
+		
 		model.addAttribute("blogVo", blogVo);
 		model.addAttribute("categoryList", categoryList);
-		
+		model.addAttribute("postVo", postVo);
 		System.out.println(postList.toString());
 		model.addAttribute("postList", postList);
 		

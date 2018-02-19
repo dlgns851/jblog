@@ -23,7 +23,7 @@ public class UserService {
 		userDao.join(userVo);
 		
 		int userNo=userDao.getUserNo(userVo.getId());
-		blogDao.createBlog(userNo);
+		blogDao.createBlog(userNo,userVo.getId());
 		blogDao.createCategory(userNo);
 	}
 	
@@ -41,5 +41,14 @@ public class UserService {
 		
 		
 		return blogDao.getCategoryListAll(userNo);
+	}
+
+	public boolean idCheck(String userId) {
+		// TODO Auto-generated method stub
+		UserVo userVo = userDao.idCheck(userId);
+		if(userVo ==null)
+		return true;
+		else
+			return false;
 	}
 }

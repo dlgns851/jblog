@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
@@ -18,8 +19,8 @@ public class BlogService {
 	@Autowired
 	BlogDao blogDao;
 	
-	public void createBlog(int userNo) {
-		blogDao.createBlog(userNo);
+	public void createBlog(int userNo,String userId) {
+		blogDao.createBlog(userNo,userId);
 	}
 	
 	public void createCategory(int userNo) {
@@ -36,6 +37,10 @@ public class BlogService {
 	
 	public void updateBlogTitle(BlogVo blogVo) {
 		blogDao.updateBlogTitle(blogVo);
+	}
+	
+	public void updateBlogTitle2(BlogVo blogVo) {
+		blogDao.updateBlogTitle2(blogVo);
 	}
 
 	public CategoryVo addNewCategory(CategoryVo categoryVo, int userNo) {
@@ -58,9 +63,23 @@ public class BlogService {
 		
 	}
 
-	public List<PostVo> getPostList(int userNo) {
+	public List<PostVo> getPostList(int userNo,String selectedCategoryNo) {
 		// TODO Auto-generated method stub
+		if(selectedCategoryNo==null)
 		return blogDao.getPostList(userNo);
+		
+		return blogDao.getPostList(userNo,selectedCategoryNo);
+	}
+
+	public PostVo getPostTitleContent(int userNo,String selectedCategoryNo,String selectedPostNo) {
+		// TODO Auto-generated method stub
+		if(selectedPostNo !=null)
+			return blogDao.getPostTitleContentByPostNo(selectedPostNo); // 유저가 포스트 제목을 클릭햇을경우 
+		
+		if(selectedCategoryNo==null)
+		return blogDao.getPostTitleContent(userNo);   //첫메인화면은 유저 가장 최근 포스트 출력
+		
+		return blogDao.getPostTitleContentByCategoryNo(userNo,selectedCategoryNo);  //선택된 카테고리의 최신글 출력
 	}
 	
 }

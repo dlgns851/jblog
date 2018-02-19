@@ -35,24 +35,38 @@ public class FileUploadController {
 	}
 	*/
 	@RequestMapping("/upload")
-	public String upload(@RequestParam("logo-file") MultipartFile file,@ModelAttribute BlogVo blogVo, Model model,HttpSession session){
+	public String upload(@RequestParam(value="logo-file", required=false) MultipartFile file,@ModelAttribute BlogVo blogVo, Model model,HttpSession session){
 		
 		
-		
+		System.out.println("upload진입");
 		//프로젝트 끝나면 아래부분 비지니스 분리하는거 해보셈
-		
+		if(!file.isEmpty()) {
+			System.out.println("file not null 진입");
 		System.out.println(file.toString());
 		String saveName=fileUploadService.restore(file); 
 		
 		UserVo userVo = (UserVo)session.getAttribute("authUser"); 
 		blogVo.setUserNo(userVo.getUserNo());
+		
+		
 		blogVo.setLogoFile(saveName);
+		
 		blogService.updateBlogTitle(blogVo); //블로그 타이틀,로고파일 업데이트
 		
 		System.out.println("컨트롤러에서saveNAme:"+saveName);
 		String url = "/upload/" + saveName;
 	//	model.addAttribute("url", url);
-		return "redirect:/"+userVo.getId() ;
+		return "redirect:/"+userVo.getId()+"/admin/basic" ;}
+		
+		else {
+			
+			UserVo userVo = (UserVo)session.getAttribute("authUser"); 
+			blogVo.setUserNo(userVo.getUserNo());
+			blogService.updateBlogTitle2(blogVo); //블로그 타이틀,로고파일 업데이트
+			return "redirect:/"+userVo.getId()+"/admin/basic";
+			
+		}
+			
 	}
 	
 	@RequestMapping("/delete")

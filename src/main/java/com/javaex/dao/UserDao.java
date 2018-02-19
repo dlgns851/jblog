@@ -18,11 +18,18 @@ public class UserDao {
 		sqlSession.insert("user.insertUser", userVo);
 	}
 	public UserVo login(UserVo userVo) {
+		
 		return sqlSession.selectOne("user.selectUserByIdAndPass", userVo);
 	}
 	
 	public int getUserNo(String userId) {
 		return sqlSession.selectOne("user.selectUserNoById", userId);
+	}
+	public UserVo idCheck(String userId) {
+		// TODO Auto-generated method stub
+		
+		
+		return sqlSession.selectOne("user.selectForIdCheck",userId);
 	}
 	
 	
