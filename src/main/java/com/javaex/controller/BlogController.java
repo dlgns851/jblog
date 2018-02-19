@@ -66,6 +66,7 @@ public class BlogController {
 		else {		
 			BlogVo blogVo = blogService.getBlogTitlelogo(authUser.getUserNo());
 			model.addAttribute("blogVo", blogVo);
+			model.addAttribute("userId",userId);
 
 		return "blog/admin/blog-admin-basic";
 		}
@@ -82,6 +83,7 @@ public class BlogController {
 			BlogVo blogVo = blogService.getBlogTitlelogo(authUser.getUserNo());
 
 			model.addAttribute("blogVo", blogVo);
+			model.addAttribute("userId",userId);
 		return "blog/admin/blog-admin-cate";
 		}
 	}
@@ -109,6 +111,7 @@ public class BlogController {
 			List<CategoryVo> categoryList = blogService.getCategoryList(userNo);
 			model.addAttribute("blogVo", blogVo);
 			model.addAttribute("categoryList", categoryList);
+			model.addAttribute("userId",userId);
 
 		return "blog/admin/blog-admin-write";
 		}

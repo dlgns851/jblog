@@ -109,6 +109,7 @@ from category ca, (select ca.cate_no, count(post_no) post_count
                     where ca.cate_no=po.cate_no(+)
                     group by ca.cate_no) po
 where ca.cate_no = po.cate_no and user_no=#{userNo}
+order by reg_date desc
 
 
 
@@ -121,6 +122,7 @@ where ca.cate_no = po.cate_no and user_no=#{userNo}
  select cate_no cateNo,user_no userNo,cate_name cateName,description,reg_date regDate
  from category
  where user_no=#{userNo} and cate_name=#{cateName}
+
 
 ]]>
 
@@ -167,6 +169,7 @@ where cate_name=#{cateTitle} and user_no=#{userNo}
  select ca.cate_no cateNo,ca.user_no UserNo,ca.cate_name cateName,ca.description,ca.reg_date regDate
  from users us , category ca
  where us.user_no=ca.user_no and ca.user_no = #{userNo}
+ order by reg_date desc
 
 ]]>
 

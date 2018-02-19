@@ -34,7 +34,7 @@
 					<li><a href="${pageContext.request.contextPath}/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
 
-			<%-- 	<table class="admin-cat">
+				<table class="admin-cat">
 					<tr>
 						<th>번호</th>
 						<th>카테고리명</th>
@@ -42,32 +42,9 @@
 						<th>설명</th>
 						<th>삭제</th>
 					</tr>
-					<tr>
-						<td>3</td>
-						<td>미분류</td>
-						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img
-							src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img
-							src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img
-							src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>							
-					</tr>
+				
 					
-				</table> --%>
+				</table> 
 				<ul id="listArea">
 					</ul>
 
@@ -193,8 +170,20 @@ $(document)
 
 	function render(CategoryVo, updown) { //글이 위에서 붙을 수 있게 flag 로 updown 넣어놈 
 
+		
 		var str = "";
-		str += "<li id='"+CategoryVo.cateNo+"'>";
+		str+= "<tr>";
+			str+="<td>"+CategoryVo.cateNo+"</td>";
+			str+="<td>"+CategoryVo.cateName+"</td>";
+			str+="<td>"+CategoryVo.postCount+"</td>";
+			str+="<td>"+CategoryVo.description+"</td>";
+			str+="<td><img ";
+			str+=	"src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+			
+			str+="</tr>";
+	
+		
+		/* str += "<li id='"+CategoryVo.cateNo+"'>";
 		str += "	<table>";
 		str += "     <tr>";
 		str += "		<td>[" + CategoryVo.cateNo + "]</td>";
@@ -207,12 +196,12 @@ $(document)
 		str += "     </tr>";
 		str += "	</table>";
 		str += "	<br>";
-		str += "</li>";
+		str += "</li>"; */
 
 		if (updown == "up") {
-			$("#listArea").prepend(str);
+			$(".admin-cat").prepend(str);
 		} else if (updown == "down") {
-			$("#listArea").append(str);
+			$(".admin-cat").append(str);
 		} else {
 			console.log("updown 오류");
 		}

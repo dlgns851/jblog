@@ -49,7 +49,7 @@
 		</div>
 
 		<div id="navigation">
-			<h2>카테고리</h2>
+			<a href="${pageContext.request.contextPath }/${userId}"><h2>카테고리</h2></a>
 			<ul>
 			
 
@@ -59,7 +59,7 @@
 			
 			
 			<c:forEach items="${categoryList }" var="vo"> 
-				<li><a href="${pageContext.request.contextPath }/${authUser.id}?selectedCategoryNo=${vo.cateNo}">${vo.cateName}</a></li>
+				<li><a href="${pageContext.request.contextPath }/${userId}?selectedCategoryNo=${vo.cateNo}">${vo.cateName}</a></li>
 				
 				</c:forEach>
 			</ul>
