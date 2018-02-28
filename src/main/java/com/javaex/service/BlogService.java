@@ -65,7 +65,7 @@ public class BlogService {
 
 	public List<PostVo> getPostList(int userNo,String selectedCategoryNo) {
 		// TODO Auto-generated method stub
-		if(selectedCategoryNo==null)
+		if(selectedCategoryNo=="" || selectedCategoryNo==null)
 		return blogDao.getPostList(userNo);
 		
 		return blogDao.getPostList(userNo,selectedCategoryNo);
@@ -80,6 +80,12 @@ public class BlogService {
 		return blogDao.getPostTitleContent(userNo);   //첫메인화면은 유저 가장 최근 포스트 출력
 		
 		return blogDao.getPostTitleContentByCategoryNo(userNo,selectedCategoryNo);  //선택된 카테고리의 최신글 출력
+	}
+
+	public void deleteCategory(String categoryNo) {
+		// TODO Auto-generated method stub
+		blogDao.deleteCategory(categoryNo);
+		
 	}
 	
 }

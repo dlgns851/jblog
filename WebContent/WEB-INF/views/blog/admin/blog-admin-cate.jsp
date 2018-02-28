@@ -33,7 +33,8 @@
 						href="${pageContext.request.contextPath}/${authUser.id }/admin/category">카테고리</a></li>
 					<li><a href="${pageContext.request.contextPath}/${authUser.id }/admin/write">글작성</a></li>
 				</ul>
-
+	
+				<img src="${pageContext.request.contextPath}/assets/images/delete.jpg" class="btnDel">
 				<table class="admin-cat">
 					<tr>
 						<th>번호</th>
@@ -116,6 +117,8 @@ $(document)
 			
 			
 			
+
+			
 			$("#btn_addCategory").on("click",function() {
 				var name =$("#name").val();
 				console.log(name);
@@ -160,6 +163,50 @@ $(document)
 			
 			
 			
+			
+			$(".admin-cat").on("click", ".btnDel", function() {
+				
+				 var no = $(this).data("no");
+				var a= "abc";
+				/* var no = $(this).data("no");
+				category/delete
+				$("#modalNo").val(no);
+				$("#del-pop").modal(); */
+				
+				$.ajax({
+					//줄때
+					url : "${pageContext.request.contextPath }/category/delete",
+					type : "post",
+					 data : {no:no}, 
+					//contentType : "application/json",  
+					//contentType : "text",
+					//data : JSON.stringify(userVo),     //이렇게 보낼경우 리퀘스트? 리스폰스? 헤더영역에 들어감 
+
+					//받을때 데이터타입 
+					dataType : "json",
+					success : function(categoryNo) {
+						console.log(a);
+						$("#" + categoryNo)
+						.remove();
+						/*성공시 처리해야될 코드 작성*/
+					},
+					/*연결실패시 */
+					error : function(XHR,
+							status, error) {
+						console
+								.error(status
+										+ " : "
+										+ error);
+					}
+				});
+
+			});
+
+			
+
+			
+			
+			
 		});
 
 						
@@ -172,13 +219,14 @@ $(document)
 
 		
 		var str = "";
-		str+= "<tr>";
+		str+= "<tr id="+CategoryVo.cateNo+">";
 			str+="<td>"+CategoryVo.cateNo+"</td>";
 			str+="<td>"+CategoryVo.cateName+"</td>";
 			str+="<td>"+CategoryVo.postCount+"</td>";
 			str+="<td>"+CategoryVo.description+"</td>";
 			str+="<td><img ";
-			str+=	"src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+			str+=	"src='${pageContext.request.contextPath}/assets/images/delete.jpg' class='btnDel' data-no='"+ CategoryVo.cateNo+"'></td>";
+			
 			
 			str+="</tr>";
 	

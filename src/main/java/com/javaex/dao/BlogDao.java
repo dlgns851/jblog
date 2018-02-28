@@ -96,7 +96,12 @@ public class BlogDao {
 	}
 	public PostVo getPostTitleContentByPostNo(String selectedPostNo) {
 		// TODO Auto-generated method stub
+		
 		return sqlSession.selectOne("blog.selectPostByPostNo", selectedPostNo);
+	}
+	public void deleteCategory(String categoryNo) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("blog.deleteCategory", categoryNo);
 	}
 	
 }

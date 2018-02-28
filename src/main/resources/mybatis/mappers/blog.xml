@@ -214,6 +214,13 @@ delete from guestbook where no=#{no} and password=#{password}
 ]]>
 </delete>
 
+<delete id="deleteCategory" parameterType="String" >
+<![CDATA[
+delete category
+where cate_no=#{value}
+]]>
+</delete>
+
 <update id="updateBlogTitle" parameterType="com.javaex.vo.BlogVo" > 
 
 <![CDATA[

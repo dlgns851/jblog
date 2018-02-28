@@ -98,6 +98,16 @@ public class BlogController {
 		return categoryVo1;
 	}
 	
+	@ResponseBody
+	@RequestMapping("category/delete")
+	public String categoryForm(@RequestParam("no") String categoryNo) {
+		
+		
+		blogService.deleteCategory(categoryNo);    //모델어트리뷰트와 categoryvo가 중복되는이름이라 1 추가  
+		
+		return categoryNo;
+	}
+	
 	@RequestMapping("{userid}/admin/write")
 	public String writeForm(HttpSession session,Model model,@PathVariable(value="userid") String userId) {
 		UserVo authUser= (UserVo)session.getAttribute("authUser");
